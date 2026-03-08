@@ -116,9 +116,9 @@ const Contact = () => {
           >
             <div className="space-y-6">
               {[
-                { icon: Mail, label: "contact.info.email", value: "hello@brandspeedmarketing.com.my" },
-                { icon: Phone, label: "contact.info.phone", value: "+60 12-345 6789" },
-                { icon: MapPin, label: "contact.info.address", value: "Selangor, Malaysia" },
+                { icon: Mail, label: "contact.info.email", value: get("contact.info.email", "hello@brandspeed.com.my") },
+                { icon: Phone, label: "contact.info.phone", value: get("contact.info.phone", "+601127340380") },
+                { icon: MapPin, label: "contact.info.address", value: get("contact.info.address", "Kuala Lumpur, Malaysia") },
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
