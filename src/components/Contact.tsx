@@ -7,6 +7,7 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Contact = () => {
   const { t } = useLanguage();
+  const { get } = useSiteContent();
   const [form, setForm] = useState({
     name: "", email: "", phone: "", service: "", budget: "", message: "",
   });
