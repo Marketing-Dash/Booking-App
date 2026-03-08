@@ -19,12 +19,13 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const prefix = isHome ? "" : "/";
   const links = [
-    { key: "nav.home", href: "#home" },
-    { key: "nav.services", href: "#services" },
-    { key: "nav.portfolio", href: "#portfolio" },
-    { key: "nav.about", href: "#about" },
-    { key: "nav.contact", href: "#contact" },
+    { key: "nav.home", href: `${prefix}#home` },
+    { key: "nav.services", href: `${prefix}#services` },
+    { key: "nav.portfolio", href: `${prefix}#portfolio` },
+    { key: "nav.about", href: `${prefix}#about` },
+    { key: "nav.contact", href: `${prefix}#contact` },
   ];
 
   const langs: { code: Language; label: string }[] = [
