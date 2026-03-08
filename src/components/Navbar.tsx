@@ -34,16 +34,18 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-navbar shadow-lg" : "bg-transparent"
+        scrolled
+          ? "bg-background/95 backdrop-blur-lg shadow-sm border-b border-border"
+          : "bg-background"
       }`}
     >
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2 group">
-            <Zap className="w-8 h-8 text-primary transition-transform group-hover:scale-110" />
-            <span className="text-2xl font-heading font-black gradient-text">
-              BrandSpeed
+            <Zap className="w-7 h-7 text-primary transition-transform group-hover:scale-110" />
+            <span className="text-2xl font-heading font-black text-primary tracking-tight">
+              BRANDSPEED
             </span>
           </a>
 
@@ -53,7 +55,7 @@ const Navbar = () => {
               <a
                 key={link.key}
                 href={link.href}
-                className="text-[hsl(0,0%,80%)] hover:text-primary font-medium transition-colors duration-200"
+                className="text-foreground/70 hover:text-primary font-medium text-[15px] transition-colors duration-200"
               >
                 {t(link.key)}
               </a>
@@ -62,28 +64,23 @@ const Navbar = () => {
 
           {/* Right side */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Language switcher */}
-            <div className="flex items-center gap-1 text-sm">
+            <div className="flex items-center gap-1 text-sm border border-border rounded-full px-1 py-0.5">
               {langs.map((l, i) => (
-                <span key={l.code} className="flex items-center">
-                  <button
-                    onClick={() => setLang(l.code)}
-                    className={`px-2 py-1 rounded transition-colors ${
-                      lang === l.code
-                        ? "text-primary font-bold"
-                        : "text-[hsl(0,0%,60%)] hover:text-[hsl(0,0%,90%)]"
-                    }`}
-                  >
-                    {l.label}
-                  </button>
-                  {i < langs.length - 1 && (
-                    <span className="text-[hsl(0,0%,30%)]">|</span>
-                  )}
-                </span>
+                <button
+                  key={l.code}
+                  onClick={() => setLang(l.code)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                    lang === l.code
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {l.label}
+                </button>
               ))}
             </div>
 
-            <a href="#contact" className="btn-primary-gradient text-sm !px-6 !py-3 rounded-lg inline-block">
+            <a href="#contact" className="btn-primary text-sm !px-6 !py-2.5">
               {t("nav.cta")}
             </a>
           </div>
@@ -91,7 +88,7 @@ const Navbar = () => {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-[hsl(0,0%,90%)] p-2"
+            className="lg:hidden text-foreground p-2"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -105,35 +102,35 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden glass-navbar border-t border-[hsl(0,0%,100%,0.05)]"
+            className="lg:hidden bg-background border-t border-border"
           >
-            <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
+            <div className="container mx-auto px-4 py-6 flex flex-col gap-3">
               {links.map((link) => (
                 <a
                   key={link.key}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-[hsl(0,0%,80%)] hover:text-primary font-medium py-2 transition-colors"
+                  className="text-foreground/70 hover:text-primary font-medium py-2.5 transition-colors border-b border-border/50"
                 >
                   {t(link.key)}
                 </a>
               ))}
-              <div className="flex items-center gap-2 pt-2">
+              <div className="flex items-center gap-2 pt-3">
                 {langs.map((l) => (
                   <button
                     key={l.code}
                     onClick={() => setLang(l.code)}
-                    className={`px-3 py-1 rounded text-sm ${
+                    className={`px-4 py-2 rounded-full text-sm font-semibold ${
                       lang === l.code
                         ? "bg-primary text-primary-foreground"
-                        : "text-[hsl(0,0%,60%)] border border-[hsl(0,0%,20%)]"
+                        : "text-muted-foreground border border-border"
                     }`}
                   >
                     {l.label}
                   </button>
                 ))}
               </div>
-              <a href="#contact" onClick={() => setMobileOpen(false)} className="btn-primary-gradient text-center text-sm !py-3 rounded-lg">
+              <a href="#contact" onClick={() => setMobileOpen(false)} className="btn-primary text-center text-sm mt-2">
                 {t("nav.cta")}
               </a>
             </div>

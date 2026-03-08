@@ -16,27 +16,27 @@ const Contact = () => {
     setForm({ name: "", email: "", phone: "", service: "", budget: "", message: "" });
   };
 
-  const inputClass = "w-full px-4 py-3 rounded-lg bg-[hsl(0,0%,10%)] border border-[hsl(0,0%,18%)] text-[hsl(0,0%,90%)] placeholder-[hsl(0,0%,40%)] focus:outline-none focus:border-primary transition-colors";
+  const inputClass = "w-full px-4 py-3 rounded-xl bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all text-sm";
 
   return (
-    <section id="contact" className="py-24 section-dark">
+    <section id="contact" className="section-padding bg-background">
       <div className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-heading font-black text-center mb-16"
+          className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-foreground text-center mb-16"
         >
           {t("contact.headline")}
         </motion.h2>
 
-        <div className="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
           <motion.form
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             onSubmit={handleSubmit}
-            className="space-y-5"
+            className="space-y-4"
           >
             <input
               type="text"
@@ -57,7 +57,7 @@ const Contact = () => {
               maxLength={255}
             />
             <div className="flex gap-2">
-              <span className="flex items-center px-4 bg-[hsl(0,0%,10%)] border border-[hsl(0,0%,18%)] rounded-lg text-[hsl(0,0%,50%)] text-sm">+60</span>
+              <span className="flex items-center px-4 bg-accent border border-border rounded-xl text-muted-foreground text-sm font-medium">+60</span>
               <input
                 type="tel"
                 placeholder={t("contact.phone")}
@@ -101,7 +101,7 @@ const Contact = () => {
               className={inputClass}
               maxLength={1000}
             />
-            <button type="submit" className="btn-primary-gradient w-full text-lg !py-4">
+            <button type="submit" className="btn-primary w-full text-base">
               {t("contact.submit")}
             </button>
           </motion.form>
@@ -113,50 +113,37 @@ const Contact = () => {
             className="space-y-8"
           >
             <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-5 h-5 text-primary" />
+              {[
+                { icon: Mail, label: "contact.info.email", value: "hello@brandspeedmarketing.com.my" },
+                { icon: Phone, label: "contact.info.phone", value: "+60 12-345 6789" },
+                { icon: MapPin, label: "contact.info.address", value: "Selangor, Malaysia" },
+              ].map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground text-sm mb-0.5">{t(label)}</p>
+                    <p className="text-muted-foreground text-sm">{value}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold mb-1">{t("contact.info.email")}</p>
-                  <p className="text-[hsl(0,0%,50%)]">hello@brandspeedmarketing.com.my</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-bold mb-1">{t("contact.info.phone")}</p>
-                  <p className="text-[hsl(0,0%,50%)]">+60 12-345 6789</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-bold mb-1">{t("contact.info.address")}</p>
-                  <p className="text-[hsl(0,0%,50%)]">Selangor, Malaysia</p>
-                </div>
-              </div>
+              ))}
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {[Facebook, Instagram, Linkedin].map((Icon, i) => (
                 <a
                   key={i}
                   href="#"
-                  className="w-12 h-12 rounded-lg border border-[hsl(0,0%,18%)] flex items-center justify-center text-[hsl(0,0%,50%)] hover:border-primary hover:text-primary transition-colors"
+                  className="w-11 h-11 rounded-xl border border-border flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors"
                 >
                   <Icon className="w-5 h-5" />
                 </a>
               ))}
             </div>
 
-            {/* Map placeholder */}
-            <div className="rounded-xl overflow-hidden h-48 bg-[hsl(0,0%,10%)] border border-[hsl(0,0%,18%)] flex items-center justify-center">
-              <span className="text-[hsl(0,0%,30%)]">Google Maps</span>
+            <div className="rounded-xl overflow-hidden h-48 bg-accent border border-border flex items-center justify-center">
+              <span className="text-muted-foreground text-sm">Google Maps</span>
             </div>
           </motion.div>
         </div>
