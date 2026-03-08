@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Save, X } from "lucide-react";
+import { useAutoTranslate, AutoTranslateButton } from "@/hooks/useAutoTranslate";
 
 interface Testimonial {
   id: string;
@@ -22,6 +23,22 @@ const AdminTestimonials = () => {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Testimonial | null>(null);
   const [isNew, setIsNew] = useState(false);
+
+  const { translate, translating } = useAutoTranslate({
+    onTranslated: (translations) => {
+      if (!editing) return;
+      const updated = { ...editing };
+      if (translations.quote) {
+        updated.quote_bm = translations.quote.bm;
+        updated.quote_zh = translations.quote.zh;
+      }
+      if (translations.company) {
+        updated.company_bm = translations.company.bm;
+        updated.company_zh = translations.company.zh;
+      }
+      setEditing(updated);
+    },
+  });
 
   const fetchItems = async () => {
     const { data, error } = await supabase.from("testimonials").select("*").order("sort_order");
@@ -77,9 +94,25 @@ const AdminTestimonials = () => {
               className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground" />
           </div>
 
-          {(["en", "bm", "zh"] as const).map((lang) => (
+          {/* English */}
+          <div className="p-4 rounded-xl border border-border">
+            <h3 className="text-sm font-bold uppercase text-primary mb-3">English</h3>
+            <textarea placeholder="Quote" value={editing.quote_en}
+              onChange={(e) => setEditing({ ...editing, quote_en: e.target.value })}
+              className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm mb-2" rows={2} />
+            <input placeholder="Company / Title" value={editing.company_en}
+              onChange={(e) => setEditing({ ...editing, company_en: e.target.value })}
+              className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" />
+          </div>
+
+          <AutoTranslateButton
+            translating={translating}
+            onClick={() => translate({ quote: editing.quote_en, company: editing.company_en })}
+          />
+
+          {(["bm", "zh"] as const).map((lang) => (
             <div key={lang} className="p-4 rounded-xl border border-border">
-              <h3 className="text-sm font-bold uppercase text-primary mb-3">{lang === "en" ? "English" : lang === "bm" ? "Bahasa Melayu" : "中文"}</h3>
+              <h3 className="text-sm font-bold uppercase text-primary mb-3">{lang === "bm" ? "Bahasa Melayu" : "中文"}</h3>
               <textarea placeholder="Quote" value={(editing as any)[`quote_${lang}`]}
                 onChange={(e) => setEditing({ ...editing, [`quote_${lang}`]: e.target.value })}
                 className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm mb-2" rows={2} />

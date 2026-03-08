@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Save, X } from "lucide-react";
+import { useAutoTranslate, AutoTranslateButton } from "@/hooks/useAutoTranslate";
 
 interface ContentItem {
   id: string;
@@ -17,6 +18,25 @@ const AdminSiteContent = () => {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<ContentItem | null>(null);
   const [isNew, setIsNew] = useState(false);
+
+  // Detect if value has en/bm/zh structure
+  const isMultilang = (val: any) =>
+    val && typeof val === "object" && !Array.isArray(val) && ("en" in val || "bm" in val || "zh" in val);
+
+  const { translate, translating } = useAutoTranslate({
+    onTranslated: (translations) => {
+      if (!editing) return;
+      const updated = { ...editing };
+      if (isMultilang(updated.value) && translations.content) {
+        updated.value = {
+          ...updated.value,
+          bm: translations.content.bm,
+          zh: translations.content.zh,
+        };
+      }
+      setEditing(updated);
+    },
+  });
 
   const fetchItems = async () => {
     const { data, error } = await supabase.from("site_content").select("*").order("category");
@@ -56,6 +76,8 @@ const AdminSiteContent = () => {
   if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
   if (editing) {
+    const multilang = isMultilang(editing.value);
+
     return (
       <div className="max-w-3xl">
         <div className="flex items-center justify-between mb-6">
@@ -81,18 +103,61 @@ const AdminSiteContent = () => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold mb-1">Value (JSON)</label>
-            <textarea
-              value={JSON.stringify(editing.value, null, 2)}
-              onChange={(e) => {
-                try { setEditing({ ...editing, value: JSON.parse(e.target.value) }); } catch {}
-              }}
-              className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm font-mono"
-              rows={8}
-              placeholder='{"en": "Hello", "bm": "Helo", "zh": "你好"}'
-            />
-          </div>
+          {multilang ? (
+            <>
+              {/* Friendly language fields */}
+              <div className="p-4 rounded-xl border border-border">
+                <h3 className="text-sm font-bold uppercase text-primary mb-3">English</h3>
+                <textarea
+                  placeholder="Enter English text..."
+                  value={editing.value?.en || ""}
+                  onChange={(e) => setEditing({ ...editing, value: { ...editing.value, en: e.target.value } })}
+                  className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm"
+                  rows={3}
+                />
+              </div>
+
+              <AutoTranslateButton translating={translating}
+                onClick={() => translate({ content: editing.value?.en || "" })} />
+
+              <div className="p-4 rounded-xl border border-border">
+                <h3 className="text-sm font-bold uppercase text-primary mb-3">Bahasa Melayu</h3>
+                <textarea
+                  placeholder="Enter BM text..."
+                  value={editing.value?.bm || ""}
+                  onChange={(e) => setEditing({ ...editing, value: { ...editing.value, bm: e.target.value } })}
+                  className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm"
+                  rows={3}
+                />
+              </div>
+
+              <div className="p-4 rounded-xl border border-border">
+                <h3 className="text-sm font-bold uppercase text-primary mb-3">中文</h3>
+                <textarea
+                  placeholder="Enter Chinese text..."
+                  value={editing.value?.zh || ""}
+                  onChange={(e) => setEditing({ ...editing, value: { ...editing.value, zh: e.target.value } })}
+                  className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm"
+                  rows={3}
+                />
+              </div>
+            </>
+          ) : (
+            /* Fallback for non-multilang values */
+            <div>
+              <label className="block text-sm font-semibold mb-1">Value</label>
+              <textarea
+                value={typeof editing.value === "string" ? editing.value : JSON.stringify(editing.value, null, 2)}
+                onChange={(e) => {
+                  try { setEditing({ ...editing, value: JSON.parse(e.target.value) }); } catch {
+                    setEditing({ ...editing, value: e.target.value });
+                  }
+                }}
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm font-mono"
+                rows={6}
+              />
+            </div>
+          )}
 
           <button onClick={handleSave} className="btn-primary inline-flex items-center gap-2">
             <Save className="w-4 h-4" /> Save
@@ -125,7 +190,7 @@ const AdminSiteContent = () => {
                 <div>
                   <span className="font-mono text-sm text-foreground">{item.key}</span>
                   <p className="text-xs text-muted-foreground mt-0.5 truncate max-w-md">
-                    {typeof item.value === "object" ? JSON.stringify(item.value).substring(0, 80) : String(item.value)}
+                    {typeof item.value === "object" && item.value?.en ? item.value.en.substring(0, 80) : JSON.stringify(item.value).substring(0, 80)}
                   </p>
                 </div>
                 <div className="flex gap-1">

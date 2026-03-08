@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Save, X, Upload } from "lucide-react";
+import { useAutoTranslate, AutoTranslateButton } from "@/hooks/useAutoTranslate";
 
 interface PortfolioItem {
   id: string;
@@ -27,6 +28,22 @@ const AdminPortfolio = () => {
   const [isNew, setIsNew] = useState(false);
   const [uploading, setUploading] = useState(false);
 
+  const { translate, translating } = useAutoTranslate({
+    onTranslated: (translations) => {
+      if (!editing) return;
+      const updated = { ...editing };
+      if (translations.title) {
+        updated.title_bm = translations.title.bm;
+        updated.title_zh = translations.title.zh;
+      }
+      if (translations.description) {
+        updated.description_bm = translations.description.bm;
+        updated.description_zh = translations.description.zh;
+      }
+      setEditing(updated);
+    },
+  });
+
   const fetchItems = async () => {
     const { data, error } = await supabase.from("portfolio_items").select("*").order("sort_order");
     if (error) toast.error("Failed to load portfolio");
@@ -42,10 +59,8 @@ const AdminPortfolio = () => {
     const file = e.target.files[0];
     const ext = file.name.split(".").pop();
     const path = `portfolio/${Date.now()}.${ext}`;
-
     const { error } = await supabase.storage.from("site-assets").upload(path, file);
     if (error) { toast.error("Upload failed"); setUploading(false); return; }
-
     const { data } = supabase.storage.from("site-assets").getPublicUrl(path);
     setEditing({ ...editing, image_url: data.publicUrl });
     setUploading(false);
@@ -95,29 +110,21 @@ const AdminPortfolio = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold mb-1">Category</label>
-              <select
-                value={editing.category}
-                onChange={(e) => setEditing({ ...editing, category: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground"
-              >
+              <select value={editing.category} onChange={(e) => setEditing({ ...editing, category: e.target.value })}
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground">
                 {categories.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-sm font-semibold mb-1">Link URL</label>
-              <input
-                value={editing.link || ""}
-                onChange={(e) => setEditing({ ...editing, link: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground"
-              />
+              <input value={editing.link || ""} onChange={(e) => setEditing({ ...editing, link: e.target.value })}
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground" />
             </div>
           </div>
 
           <div>
             <label className="block text-sm font-semibold mb-1">Image</label>
-            {editing.image_url && (
-              <img src={editing.image_url} alt="" className="w-40 h-24 object-cover rounded-lg mb-2" />
-            )}
+            {editing.image_url && <img src={editing.image_url} alt="" className="w-40 h-24 object-cover rounded-lg mb-2" />}
             <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-sm cursor-pointer hover:bg-muted transition-colors">
               <Upload className="w-4 h-4" />
               {uploading ? "Uploading..." : "Upload Image"}
@@ -125,22 +132,33 @@ const AdminPortfolio = () => {
             </label>
           </div>
 
-          {(["en", "bm", "zh"] as const).map((lang) => (
+          {/* English fields */}
+          <div className="p-4 rounded-xl border border-border">
+            <h3 className="text-sm font-bold uppercase text-primary mb-3">English</h3>
+            <input placeholder="Title" value={editing.title_en}
+              onChange={(e) => setEditing({ ...editing, title_en: e.target.value })}
+              className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm mb-2" />
+            <textarea placeholder="Description" value={editing.description_en}
+              onChange={(e) => setEditing({ ...editing, description_en: e.target.value })}
+              className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" rows={2} />
+          </div>
+
+          {/* Auto translate button */}
+          <AutoTranslateButton
+            translating={translating}
+            onClick={() => translate({ title: editing.title_en, description: editing.description_en })}
+          />
+
+          {/* BM & ZH fields */}
+          {(["bm", "zh"] as const).map((lang) => (
             <div key={lang} className="p-4 rounded-xl border border-border">
-              <h3 className="text-sm font-bold uppercase text-primary mb-3">{lang === "en" ? "English" : lang === "bm" ? "Bahasa Melayu" : "中文"}</h3>
-              <input
-                placeholder="Title"
-                value={(editing as any)[`title_${lang}`]}
+              <h3 className="text-sm font-bold uppercase text-primary mb-3">{lang === "bm" ? "Bahasa Melayu" : "中文"}</h3>
+              <input placeholder="Title" value={(editing as any)[`title_${lang}`]}
                 onChange={(e) => setEditing({ ...editing, [`title_${lang}`]: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm mb-2"
-              />
-              <textarea
-                placeholder="Description"
-                value={(editing as any)[`description_${lang}`]}
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm mb-2" />
+              <textarea placeholder="Description" value={(editing as any)[`description_${lang}`]}
                 onChange={(e) => setEditing({ ...editing, [`description_${lang}`]: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm"
-                rows={2}
-              />
+                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" rows={2} />
             </div>
           ))}
 
