@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { BarChart3, Code, Smartphone, Search, Palette, Camera, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { servicesData } from "@/data/services";
 
-const services = [
-  { titleKey: "services.1.title", descKey: "services.1.desc", icon: BarChart3 },
-  { titleKey: "services.2.title", descKey: "services.2.desc", icon: Code },
-  { titleKey: "services.3.title", descKey: "services.3.desc", icon: Smartphone },
-  { titleKey: "services.4.title", descKey: "services.4.desc", icon: Search },
-  { titleKey: "services.5.title", descKey: "services.5.desc", icon: Palette },
-  { titleKey: "services.6.title", descKey: "services.6.desc", icon: Camera },
-];
+const services = servicesData.map((s) => ({
+  titleKey: s.titleKey,
+  descKey: s.descKey,
+  icon: s.icon,
+  slug: s.slug,
+}));
 
 const Services = () => {
   const { t } = useLanguage();
@@ -35,28 +35,32 @@ const Services = () => {
           {services.map((service, i) => {
             const Icon = service.icon;
             return (
-              <motion.div
+              <Link
                 key={service.titleKey}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="card-clean group cursor-pointer"
+                to={`/services/${service.slug}`}
               >
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/15 transition-colors">
-                  <Icon className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-lg font-heading font-bold text-foreground mb-2">
-                  {t(service.titleKey)}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                  {t(service.descKey)}
-                </p>
-                <div className="flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3 transition-all">
-                  <span>Learn more</span>
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="card-clean group cursor-pointer h-full"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/15 transition-colors">
+                    <Icon className="w-7 h-7 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-heading font-bold text-foreground mb-2">
+                    {t(service.titleKey)}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    {t(service.descKey)}
+                  </p>
+                  <div className="flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3 transition-all">
+                    <span>Learn more</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </motion.div>
+              </Link>
             );
           })}
         </div>
