@@ -80,6 +80,14 @@ const Navbar = () => {
               ))}
             </div>
 
+            <a
+              href="https://brandspeedmarketing.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold px-6 py-2.5 rounded-full border-2 border-foreground text-foreground hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-200"
+            >
+              Client Login
+            </a>
             <a href="#contact" className="btn-primary text-sm !px-6 !py-2.5">
               {t("nav.cta")}
             </a>
