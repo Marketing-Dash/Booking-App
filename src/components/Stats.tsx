@@ -32,7 +32,7 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
   }, [inView, target]);
 
   return (
-    <span ref={ref} className="text-5xl md:text-6xl font-heading font-black gradient-text">
+    <span ref={ref} className="text-4xl md:text-5xl font-heading font-black text-primary">
       {count}{suffix}
     </span>
   );
@@ -42,9 +42,9 @@ const Stats = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 section-light">
+    <section className="section-padding bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-14">
           {stats.map((stat) => (
             <motion.div
               key={stat.key}
@@ -54,7 +54,7 @@ const Stats = () => {
               className="text-center"
             >
               <Counter target={stat.value} suffix={stat.suffix} />
-              <p className="mt-2 text-[hsl(0,0%,40%)] font-medium">{t(stat.key)}</p>
+              <p className="mt-2 text-muted-foreground font-medium text-sm">{t(stat.key)}</p>
             </motion.div>
           ))}
         </div>
@@ -62,7 +62,7 @@ const Stats = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-lg text-[hsl(0,0%,40%)] max-w-3xl mx-auto leading-relaxed"
+          className="text-center text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
         >
           {t("stats.desc")}
         </motion.p>

@@ -15,7 +15,7 @@ const Services = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="services" className="py-24 section-dark">
+    <section id="services" className="section-padding section-alt-bg">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -23,10 +23,10 @@ const Services = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-primary font-bold tracking-widest text-sm mb-4 block">
+          <span className="text-primary font-bold tracking-widest text-xs uppercase mb-3 block">
             {t("services.label")}
           </span>
-          <h2 className="text-4xl md:text-5xl font-heading font-black">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-foreground">
             {t("services.headline")}
           </h2>
         </motion.div>
@@ -40,17 +40,16 @@ const Services = () => {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -8 }}
-                className="card-gradient-border p-8 rounded-xl bg-[hsl(0,0%,7%)] group cursor-pointer transition-shadow duration-300 hover:glow-orange"
+                transition={{ delay: i * 0.08 }}
+                className="card-clean group cursor-pointer"
               >
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/15 transition-colors">
                   <Icon className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-xl font-heading font-bold mb-3">
+                <h3 className="text-lg font-heading font-bold text-foreground mb-2">
                   {t(service.titleKey)}
                 </h3>
-                <p className="text-[hsl(0,0%,55%)] mb-4 leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   {t(service.descKey)}
                 </p>
                 <div className="flex items-center gap-2 text-primary font-semibold text-sm group-hover:gap-3 transition-all">

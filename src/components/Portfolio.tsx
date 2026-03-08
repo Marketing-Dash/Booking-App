@@ -5,12 +5,12 @@ import { useLanguage } from "@/i18n/LanguageContext";
 type Category = "all" | "websites" | "apps" | "social" | "branding";
 
 const projects = [
-  { name: "TechMY Portal", category: "websites" as const, color: "from-primary/30 to-secondary/30" },
-  { name: "FoodKL App", category: "apps" as const, color: "from-secondary/30 to-primary/30" },
-  { name: "StyleKL Campaign", category: "social" as const, color: "from-brand-gold/30 to-primary/30" },
-  { name: "Batik House Identity", category: "branding" as const, color: "from-primary/30 to-brand-gold/30" },
-  { name: "EduMalaysia Platform", category: "websites" as const, color: "from-secondary/30 to-brand-gold/30" },
-  { name: "HealthPlus App", category: "apps" as const, color: "from-primary/20 to-secondary/40" },
+  { name: "TechMY Portal", category: "websites" as const, gradient: "from-primary/20 to-secondary/20" },
+  { name: "FoodKL App", category: "apps" as const, gradient: "from-secondary/20 to-primary/20" },
+  { name: "StyleKL Campaign", category: "social" as const, gradient: "from-brand-gold/20 to-primary/20" },
+  { name: "Batik House Identity", category: "branding" as const, gradient: "from-primary/20 to-brand-gold/20" },
+  { name: "EduMalaysia Platform", category: "websites" as const, gradient: "from-secondary/15 to-brand-gold/20" },
+  { name: "HealthPlus App", category: "apps" as const, gradient: "from-primary/15 to-secondary/25" },
 ];
 
 const Portfolio = () => {
@@ -28,7 +28,7 @@ const Portfolio = () => {
   const filtered = filter === "all" ? projects : projects.filter((p) => p.category === filter);
 
   return (
-    <section id="portfolio" className="py-24 section-dark">
+    <section id="portfolio" className="section-padding section-alt-bg">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -36,10 +36,10 @@ const Portfolio = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-primary font-bold tracking-widest text-sm mb-4 block">
+          <span className="text-primary font-bold tracking-widest text-xs uppercase mb-3 block">
             {t("portfolio.label")}
           </span>
-          <h2 className="text-4xl md:text-5xl font-heading font-black">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-foreground">
             {t("portfolio.headline")}
           </h2>
         </motion.div>
@@ -51,8 +51,8 @@ const Portfolio = () => {
               onClick={() => setFilter(f.value)}
               className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
                 filter === f.value
-                  ? "btn-primary-gradient !py-2 !px-5"
-                  : "border border-[hsl(0,0%,20%)] text-[hsl(0,0%,60%)] hover:border-primary hover:text-primary"
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-border text-muted-foreground hover:border-primary hover:text-primary"
               }`}
             >
               {t(f.key)}
@@ -66,25 +66,22 @@ const Portfolio = () => {
               <motion.div
                 key={project.name}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                whileHover={{ y: -5 }}
-                className="group relative rounded-xl overflow-hidden cursor-pointer aspect-[4/3]"
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[4/3] border border-border bg-card hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.color}`} />
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 bg-[hsl(0,0%,4%,0.6)] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h3 className="text-xl font-heading font-bold mb-2">{project.name}</h3>
-                  <span className="text-sm text-primary capitalize mb-4">{project.category}</span>
-                  <button className="btn-primary-gradient !py-2 !px-6 text-sm">
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
+                <div className="absolute inset-0 flex items-end p-6">
+                  <div>
+                    <h3 className="text-lg font-heading font-bold text-foreground">{project.name}</h3>
+                    <span className="text-sm text-primary capitalize font-medium">{project.category}</span>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <button className="btn-primary text-sm !py-2.5 !px-6">
                     {t("portfolio.view")}
                   </button>
-                </div>
-                <div className="absolute inset-0 flex items-end p-6 group-hover:opacity-0 transition-opacity">
-                  <div>
-                    <h3 className="text-lg font-heading font-bold">{project.name}</h3>
-                    <span className="text-sm text-primary capitalize">{project.category}</span>
-                  </div>
                 </div>
               </motion.div>
             ))}
