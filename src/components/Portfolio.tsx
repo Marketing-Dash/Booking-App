@@ -55,8 +55,8 @@ const Portfolio = () => {
   const filtered = filter === "all" ? projects : projects.filter((p) => p.category === filter);
 
   const getTitle = (p: PortfolioItem) => {
-    if (language === "bm") return p.title_bm || p.title_en;
-    if (language === "zh") return (p as any).title_zh || p.title_en;
+    if (lang === "bm") return p.title_bm || p.title_en;
+    if (lang === "zh") return (p as any).title_zh || p.title_en;
     return p.title_en;
   };
 
