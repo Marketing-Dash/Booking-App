@@ -1,4 +1,4 @@
-import { BarChart3, Code, Smartphone, Search, Palette, Camera } from "lucide-react";
+import { BarChart3, Code, Smartphone, Search, Palette, Camera, Briefcase } from "lucide-react";
 
 export interface ServiceDetail {
   slug: string;
