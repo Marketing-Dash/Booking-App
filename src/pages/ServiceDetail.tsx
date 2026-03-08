@@ -191,6 +191,7 @@ const ServiceDetail = () => {
                         <Check className={`w-4 h-4 mt-0.5 shrink-0 ${i === 1 ? "text-primary-foreground/80" : "text-primary"}`} />
                         <span className={`text-sm ${i === 1 ? "text-primary-foreground/90" : "text-muted-foreground"}`}>
                           {tl(f)}
+                          {f.starred && <span className="text-primary font-bold ml-0.5">*</span>}
                         </span>
                       </li>
                     ))}
@@ -208,6 +209,18 @@ const ServiceDetail = () => {
                 </motion.div>
               ))}
             </div>
+
+            {/* Footnote for starred features */}
+            {service.pricing.some((tier) => tier.features.some((f) => f.starred)) && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="text-center text-muted-foreground text-xs mt-8 max-w-2xl mx-auto"
+              >
+                <span className="text-primary font-bold">*</span> Additional charges apply for domain registration, hosting, and other third-party services.
+              </motion.p>
+            )}
           </div>
         </section>
 
