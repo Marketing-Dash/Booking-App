@@ -33,8 +33,53 @@ const ServiceDetail = () => {
   const Icon = service.icon;
   const tl = (obj: Record<Language, string>) => obj[lang];
 
+  const serviceMetaMap: Record<string, { title: string; description: string; keywords: string }> = {
+    "social-media-marketing": {
+      title: "Social Media Marketing Malaysia | BrandSpeed Marketing",
+      description: "Expert social media marketing services in Malaysia. Facebook, Instagram & TikTok management, content creation and paid ads to grow your brand online.",
+      keywords: "social media marketing Malaysia, Facebook marketing, Instagram marketing, TikTok marketing, social media agency",
+    },
+    "website-development": {
+      title: "Website Development Malaysia | BrandSpeed Marketing",
+      description: "Professional website development services in Malaysia. Custom responsive websites, e-commerce, WordPress and modern web apps for Malaysian businesses.",
+      keywords: "website development Malaysia, web design Malaysia, e-commerce website, WordPress development, responsive website",
+    },
+    "app-development": {
+      title: "App Development Malaysia | BrandSpeed Marketing",
+      description: "Mobile and web app development in Malaysia. iOS, Android and cross-platform apps built with modern technology for startups and enterprises.",
+      keywords: "app development Malaysia, mobile app development, iOS app, Android app, cross-platform app",
+    },
+    "seo-google-ads": {
+      title: "SEO & Google Ads Malaysia | BrandSpeed Marketing",
+      description: "SEO and Google Ads management in Malaysia. Boost your search rankings and drive targeted traffic with our proven digital marketing strategies.",
+      keywords: "SEO Malaysia, Google Ads Malaysia, search engine optimization, PPC advertising, SEM Malaysia",
+    },
+    "branding-design": {
+      title: "Branding & Design Malaysia | BrandSpeed Marketing",
+      description: "Professional branding and graphic design services in Malaysia. Logo design, brand identity, packaging and marketing collateral for Malaysian businesses.",
+      keywords: "branding Malaysia, logo design, graphic design, brand identity, packaging design Malaysia",
+    },
+    "content-creation": {
+      title: "Content Creation Malaysia | BrandSpeed Marketing",
+      description: "Professional content creation services in Malaysia. Photography, videography, copywriting and visual content for social media and marketing campaigns.",
+      keywords: "content creation Malaysia, photography, videography, copywriting, visual content marketing",
+    },
+  };
+
+  const meta = serviceMetaMap[slug || ""] || {
+    title: `${t(service.titleKey)} | BrandSpeed Marketing`,
+    description: t(service.descKey),
+    keywords: "digital marketing Malaysia, BrandSpeed Marketing",
+  };
+
   return (
     <>
+      <SEO
+        title={meta.title}
+        description={meta.description}
+        keywords={meta.keywords}
+        path={`/services/${slug}`}
+      />
       <Navbar />
       <main className="pt-[72px]">
         {/* Hero */}
