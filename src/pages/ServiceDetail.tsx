@@ -191,7 +191,7 @@ const ServiceDetail = () => {
                         <Check className={`w-4 h-4 mt-0.5 shrink-0 ${i === 1 ? "text-primary-foreground/80" : "text-primary"}`} />
                         <span className={`text-sm ${i === 1 ? "text-primary-foreground/90" : "text-muted-foreground"}`}>
                           {tl(f)}
-                          {f.starred && <span className="text-primary font-bold ml-0.5">*</span>}
+                          {f.starred && <span className={`font-bold ml-0.5 ${i === 1 ? "text-white" : "text-primary"}`}>*</span>}
                         </span>
                       </li>
                     ))}
