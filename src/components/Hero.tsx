@@ -47,8 +47,8 @@ const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-black text-primary leading-[1.1] mb-6">
-              BRANDSPEED
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-black leading-[1.1] mb-6">
+              <span className="text-[hsl(217,60%,22%)]">BRAND</span><span className="text-primary">SPEED</span>
             </h1>
 
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4">
