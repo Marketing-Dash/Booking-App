@@ -67,6 +67,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await checkAdmin(session.user.id);
       }
       setLoading(false);
+    }).catch(() => {
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
