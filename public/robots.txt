@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/login
 
-Sitemap: https://www.brandspeedmarketing.com.my/sitemap.xml
+Sitemap: https://brandspeedweb.lovable.app/sitemap.xml

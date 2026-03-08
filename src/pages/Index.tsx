@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
@@ -14,6 +15,12 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 const Index = () => {
   return (
     <>
+      <SEO
+        title="BrandSpeed Marketing | Digital Marketing Agency Malaysia"
+        description="BrandSpeed Marketing is a full-service digital marketing agency in Malaysia. We build websites, apps, social media campaigns & SEO strategies for Malaysian businesses."
+        keywords="digital marketing Malaysia, social media marketing, website development Malaysia, SEO Malaysia, branding agency, app development, content creation, Google Ads Malaysia"
+        path="/"
+      />
       <Navbar />
       <main>
         <Hero />
