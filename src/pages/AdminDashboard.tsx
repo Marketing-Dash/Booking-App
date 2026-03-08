@@ -90,6 +90,7 @@ const AdminDashboard = () => {
           {activeTab === "services" && <AdminServices />}
           {activeTab === "portfolio" && <AdminPortfolio />}
           {activeTab === "testimonials" && <AdminTestimonials />}
+          {activeTab === "blog" && <AdminBlog />}
           {activeTab === "content" && <AdminSiteContent />}
         </div>
       </main>

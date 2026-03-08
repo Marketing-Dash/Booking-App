@@ -123,7 +123,7 @@ const Navbar = () => {
                   onClick={() => setMobileOpen(false)}
                   className="text-foreground/70 hover:text-primary font-medium py-2.5 transition-colors border-b border-border/50"
                 >
-                  {t(link.key)}
+                  {(link as any).label || t(link.key)}
                 </a>
               ))}
               <div className="flex items-center gap-2 pt-3">
