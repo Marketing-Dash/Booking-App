@@ -60,7 +60,7 @@ const Navbar = () => {
                 href={link.href}
                 className="text-foreground/70 hover:text-primary font-medium text-[15px] transition-colors duration-200"
               >
-                {t(link.key)}
+                {(link as any).label || t(link.key)}
               </a>
             ))}
           </div>
