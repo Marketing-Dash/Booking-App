@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
-import { BarChart3, Code, Smartphone, Search, Palette, Camera, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { servicesData } from "@/data/services";
 
-const services = [
-  { titleKey: "services.1.title", descKey: "services.1.desc", icon: BarChart3 },
-  { titleKey: "services.2.title", descKey: "services.2.desc", icon: Code },
-  { titleKey: "services.3.title", descKey: "services.3.desc", icon: Smartphone },
-  { titleKey: "services.4.title", descKey: "services.4.desc", icon: Search },
-  { titleKey: "services.5.title", descKey: "services.5.desc", icon: Palette },
-  { titleKey: "services.6.title", descKey: "services.6.desc", icon: Camera },
-];
+const services = servicesData.map((s) => ({
+  titleKey: s.titleKey,
+  descKey: s.descKey,
+  icon: s.icon,
+  slug: s.slug,
+}));
 
 const Services = () => {
   const { t } = useLanguage();
