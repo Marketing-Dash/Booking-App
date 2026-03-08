@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
 import { toast } from "sonner";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Contact = () => {
   const { t } = useLanguage();
