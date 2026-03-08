@@ -83,9 +83,12 @@ const Hero = () => {
             <div className="rounded-2xl overflow-hidden border-2 border-primary/30 shadow-2xl shadow-primary/10">
               <img
                 src={heroLaptop}
-                alt="BrandSpeed Marketing digital solutions dashboard"
+                alt="BrandSpeed Marketing digital solutions dashboard showing website and social media analytics"
                 className="w-full h-auto"
                 loading="eager"
+                fetchPriority="high"
+                width={800}
+                height={600}
               />
             </div>
           </motion.div>
