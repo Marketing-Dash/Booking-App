@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Language } from "@/i18n/translations";
-import { Zap, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import brandspeedLogo from "@/assets/brandspeed-logo.png";
 
 const Navbar = () => {
   const { lang, setLang, t } = useLanguage();
