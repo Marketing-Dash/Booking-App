@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
-import { Check, Trophy, Flame } from "lucide-react";
+import { Check, Trophy, Flame, Asterisk } from "lucide-react";
 
-const packages = [
+type Feature = { text: string; starred?: boolean };
+
+const packages: {
+  name: string;
+  price: string;
+  period: string;
+  badge: string | null;
+  highlight: string;
+  features: Feature[];
+  cta: string;
+  popular: boolean;
+  exclusive: boolean;
+}[] = [
   {
     name: "Essential",
     price: "RM 500",
@@ -9,13 +21,13 @@ const packages = [
     badge: null,
     highlight: "border",
     features: [
-      "8 Posts",
-      "4 Reels",
-      "FB, IG, TikTok, GMB",
-      "Portal Access",
-      "Weekly, 2 Weeks, 1 Month Reports",
-      "1 Extra Add-on Task (Design, Editing, Others)",
-      "Monthly 2 Meetings",
+      { text: "8 Posts" },
+      { text: "4 Reels" },
+      { text: "FB, IG, TikTok, GMB" },
+      { text: "Portal Access" },
+      { text: "Weekly, 2 Weeks, 1 Month Reports" },
+      { text: "1 Extra Add-on Task (Design, Editing, Others)" },
+      { text: "Monthly 2 Meetings" },
     ],
     cta: "Get Started",
     popular: false,
@@ -28,14 +40,14 @@ const packages = [
     badge: "Most Popular",
     highlight: "popular",
     features: [
-      "10 Posts",
-      "5 Reels",
-      "FB, IG, TikTok, GMB, YouTube",
-      "Portal Access",
-      "Weekly, 2 Weeks, 1 Month Reports",
-      "2 Extra Add-on Tasks (Design, Editing, Others)",
-      "Staff Attendance Web App with Real-time & Location Tracking + Reporting",
-      "Monthly 2 Meetings",
+      { text: "10 Posts" },
+      { text: "5 Reels" },
+      { text: "FB, IG, TikTok, GMB, YouTube" },
+      { text: "Portal Access" },
+      { text: "Weekly, 2 Weeks, 1 Month Reports" },
+      { text: "2 Extra Add-on Tasks (Design, Editing, Others)" },
+      { text: "Staff Attendance Web App with Real-time & Location Tracking + Reporting", starred: true },
+      { text: "Monthly 2 Meetings" },
     ],
     cta: "Upgrade to this plan",
     popular: true,
@@ -48,15 +60,15 @@ const packages = [
     badge: "Limited Clients Only",
     highlight: "exclusive",
     features: [
-      "10 Posts",
-      "5 Reels",
-      "FB, IG, TikTok, GMB, YouTube",
-      "Portal Access",
-      "Weekly, 2 Weeks, 1 Month Reports",
-      "3 Extra Add-on Tasks (Design, Editing, Others)",
-      "Staff Attendance Web App with Real-time & Location Tracking + Reporting",
-      "Custom App or Web Development & Maintenance",
-      "Monthly 2 Meetings",
+      { text: "10 Posts" },
+      { text: "5 Reels" },
+      { text: "FB, IG, TikTok, GMB, YouTube" },
+      { text: "Portal Access" },
+      { text: "Weekly, 2 Weeks, 1 Month Reports" },
+      { text: "3 Extra Add-on Tasks (Design, Editing, Others)" },
+      { text: "Staff Attendance Web App with Real-time & Location Tracking + Reporting", starred: true },
+      { text: "Custom App or Web Development & Maintenance", starred: true },
+      { text: "Monthly 2 Meetings" },
     ],
     cta: "Upgrade to this plan",
     popular: false,
@@ -65,6 +77,8 @@ const packages = [
 ];
 
 const Pricing = () => {
+  const hasStarred = packages.some((p) => p.features.some((f) => f.starred));
+
   return (
     <section id="pricing" className="section-padding bg-background">
       <div className="container mx-auto px-4">
@@ -151,7 +165,7 @@ const Pricing = () => {
               <ul className="space-y-3 mb-8 flex-1">
                 {pkg.features.map((f) => (
                   <li
-                    key={f}
+                    key={f.text}
                     className={`flex items-start gap-3 text-sm ${
                       pkg.popular ? "text-white/85" : "text-foreground/80"
                     }`}
@@ -165,7 +179,12 @@ const Pricing = () => {
                           : "text-primary"
                       }`}
                     />
-                    <span>{f}</span>
+                    <span>
+                      {f.text}
+                      {f.starred && (
+                        <span className="text-primary font-bold ml-0.5">*</span>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -186,6 +205,18 @@ const Pricing = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Footnote */}
+        {hasStarred && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center text-muted-foreground text-xs mt-8 max-w-2xl mx-auto"
+          >
+            <span className="text-primary font-bold">*</span> Additional charges apply for domain registration, hosting, and other third-party services.
+          </motion.p>
+        )}
       </div>
     </section>
   );
