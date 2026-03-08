@@ -13,7 +13,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-xl font-heading font-black">
-                <span className="text-[hsl(217,60%,22%)]">BRAND</span><span className="text-primary">SPEED</span>
+                <span className="text-[hsl(217,60%,65%)]">BRAND</span><span className="text-primary">SPEED</span>
               </span>
             </div>
             <p className="text-background/60 text-sm mb-6">{t("footer.tagline")}</p>
