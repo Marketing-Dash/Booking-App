@@ -49,7 +49,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
           <a href="#home" className="flex items-center group">
-            <img src={brandspeedLogo} alt="BrandSpeed Marketing" className="h-10 md:h-12 w-auto" />
+            <img src={brandspeedLogo} alt="BrandSpeed Marketing" className="h-12 md:h-14 w-auto" />
           </a>
 
           {/* Desktop Links */}
