@@ -1,8 +1,10 @@
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Zap, Facebook, Instagram, Linkedin } from "lucide-react";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Footer = () => {
   const { t } = useLanguage();
+  const { get } = useSiteContent();
 
   return (
     <footer className="bg-foreground text-background border-t-2 border-primary">
@@ -48,9 +50,9 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-bold text-sm mb-4 text-background">{t("footer.contact")}</h4>
             <ul className="space-y-2.5 text-background/50 text-sm">
-              <li>hello@brandspeedmarketing.com.my</li>
-              <li>+60 12-345 6789</li>
-              <li>Selangor, Malaysia</li>
+              <li>{get("contact.info.email", "hello@brandspeed.com.my")}</li>
+              <li>{get("contact.info.phone", "+601127340380")}</li>
+              <li>{get("contact.info.address", "Kuala Lumpur, Malaysia")}</li>
             </ul>
           </div>
         </div>
