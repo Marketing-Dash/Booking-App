@@ -8,6 +8,8 @@ import brandspeedLogo from "@/assets/brandspeed-logo.png";
 
 const Navbar = () => {
   const { lang, setLang, t } = useLanguage();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
