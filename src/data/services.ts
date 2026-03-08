@@ -9,7 +9,7 @@ export interface ServiceDetail {
   pricing: {
     label: { en: string; bm: string; zh: string };
     price: string;
-    features: { en: string; bm: string; zh: string }[];
+    features: { en: string; bm: string; zh: string; starred?: boolean }[];
   }[];
   portfolio: {
     title: { en: string; bm: string; zh: string };
