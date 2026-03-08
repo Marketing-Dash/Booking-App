@@ -79,9 +79,15 @@ const Portfolio = () => {
                   </div>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button className="btn-primary text-sm !py-2.5 !px-6">
+                  <a
+                    href="#contact"
+                    className="btn-primary text-sm !py-2.5 !px-6 inline-block"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
                     {t("portfolio.view")}
-                  </button>
+                  </a>
                 </div>
               </motion.div>
             ))}
