@@ -28,7 +28,7 @@ const gradients = [
 ];
 
 const Portfolio = () => {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const [filter, setFilter] = useState<Category>("all");
   const [projects, setProjects] = useState<PortfolioItem[]>([]);
 
