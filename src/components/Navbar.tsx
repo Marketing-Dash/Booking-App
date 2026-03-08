@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Language } from "@/i18n/translations";
@@ -7,6 +8,8 @@ import brandspeedLogo from "@/assets/brandspeed-logo.png";
 
 const Navbar = () => {
   const { lang, setLang, t } = useLanguage();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -16,12 +19,13 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const prefix = isHome ? "" : "/";
   const links = [
-    { key: "nav.home", href: "#home" },
-    { key: "nav.services", href: "#services" },
-    { key: "nav.portfolio", href: "#portfolio" },
-    { key: "nav.about", href: "#about" },
-    { key: "nav.contact", href: "#contact" },
+    { key: "nav.home", href: `${prefix}#home` },
+    { key: "nav.services", href: `${prefix}#services` },
+    { key: "nav.portfolio", href: `${prefix}#portfolio` },
+    { key: "nav.about", href: `${prefix}#about` },
+    { key: "nav.contact", href: `${prefix}#contact` },
   ];
 
   const langs: { code: Language; label: string }[] = [
