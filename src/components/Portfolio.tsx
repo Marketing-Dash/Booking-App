@@ -1,21 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 
 type Category = "all" | "websites" | "apps" | "social" | "branding";
 
-const projects = [
-  { name: "TechMY Portal", category: "websites" as const, gradient: "from-primary/20 to-secondary/20" },
-  { name: "FoodKL App", category: "apps" as const, gradient: "from-secondary/20 to-primary/20" },
-  { name: "StyleKL Campaign", category: "social" as const, gradient: "from-brand-gold/20 to-primary/20" },
-  { name: "Batik House Identity", category: "branding" as const, gradient: "from-primary/20 to-brand-gold/20" },
-  { name: "EduMalaysia Platform", category: "websites" as const, gradient: "from-secondary/15 to-brand-gold/20" },
-  { name: "HealthPlus App", category: "apps" as const, gradient: "from-primary/15 to-secondary/25" },
+interface PortfolioItem {
+  id: string;
+  title_en: string;
+  title_bm: string;
+  title_zh: string;
+  description_en: string;
+  category: string;
+  image_url: string | null;
+  link: string | null;
+  is_active: boolean;
+  sort_order: number;
+}
+
+const gradients = [
+  "from-primary/20 to-secondary/20",
+  "from-secondary/20 to-primary/20",
+  "from-brand-gold/20 to-primary/20",
+  "from-primary/20 to-brand-gold/20",
+  "from-secondary/15 to-brand-gold/20",
+  "from-primary/15 to-secondary/25",
 ];
 
 const Portfolio = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [filter, setFilter] = useState<Category>("all");
+  const [projects, setProjects] = useState<PortfolioItem[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data } = await supabase
+        .from("portfolio_items")
+        .select("*")
+        .eq("is_active", true)
+        .order("sort_order");
+      if (data) setProjects(data as PortfolioItem[]);
+    };
+    fetchProjects();
+  }, []);
 
   const filterKeys: { key: string; value: Category }[] = [
     { key: "portfolio.all", value: "all" },
@@ -26,6 +53,12 @@ const Portfolio = () => {
   ];
 
   const filtered = filter === "all" ? projects : projects.filter((p) => p.category === filter);
+
+  const getTitle = (p: PortfolioItem) => {
+    if (language === "bm") return p.title_bm || p.title_en;
+    if (language === "zh") return (p as any).title_zh || p.title_en;
+    return p.title_en;
+  };
 
   return (
     <section id="portfolio" className="section-padding section-alt-bg">
@@ -62,37 +95,46 @@ const Portfolio = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
+            {filtered.map((project, i) => (
               <motion.div
-                key={project.name}
+                key={project.id}
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[4/3] border border-border bg-card hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
+                {project.image_url ? (
+                  <img src={project.image_url} alt={getTitle(project)} className="absolute inset-0 w-full h-full object-cover" />
+                ) : (
+                  <div className={`absolute inset-0 bg-gradient-to-br ${gradients[i % gradients.length]}`} />
+                )}
                 <div className="absolute inset-0 flex items-end p-6">
                   <div>
-                    <h3 className="text-lg font-heading font-bold text-foreground">{project.name}</h3>
+                    <h3 className="text-lg font-heading font-bold text-foreground">{getTitle(project)}</h3>
                     <span className="text-sm text-primary capitalize font-medium">{project.category}</span>
                   </div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <a
-                    href="#contact"
-                    className="btn-primary text-sm !py-2.5 !px-6 inline-block"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    {t("portfolio.view")}
-                  </a>
-                </div>
+                {project.link && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-primary text-sm !py-2.5 !px-6 inline-block"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {t("portfolio.view")}
+                    </a>
+                  </div>
+                )}
               </motion.div>
             ))}
           </AnimatePresence>
         </div>
+        {filtered.length === 0 && (
+          <p className="text-center text-muted-foreground py-12">No portfolio items yet.</p>
+        )}
       </div>
     </section>
   );
