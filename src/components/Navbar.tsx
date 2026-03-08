@@ -43,11 +43,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2 group">
-            <Zap className="w-7 h-7 text-primary transition-transform group-hover:scale-110" />
-            <span className="text-2xl font-heading font-black text-primary tracking-tight">
-              BRANDSPEED
-            </span>
+          <a href="#home" className="flex items-center group">
+            <img src={brandspeedLogo} alt="BrandSpeed Marketing" className="h-10 md:h-12 w-auto" />
           </a>
 
           {/* Desktop Links */}
