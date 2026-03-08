@@ -19,6 +19,7 @@ const AdminDashboard = () => {
     { key: "services", label: "Services & Pricing", icon: Briefcase },
     { key: "portfolio", label: "Portfolio", icon: FolderOpen },
     { key: "testimonials", label: "Testimonials", icon: MessageSquareQuote },
+    { key: "blog", label: "Blog Posts", icon: PenSquare },
     { key: "content", label: "Site Content", icon: FileText },
   ];
 
