@@ -1,5 +1,5 @@
 import { useLanguage } from "@/i18n/LanguageContext";
-import { Zap, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Footer = () => {
@@ -12,8 +12,9 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Zap className="w-6 h-6 text-primary" />
-              <span className="text-xl font-heading font-black text-primary">BRANDSPEED</span>
+              <span className="text-xl font-heading font-black">
+                <span className="text-[hsl(217,60%,22%)]">BRAND</span><span className="text-primary">SPEED</span>
+              </span>
             </div>
             <p className="text-background/60 text-sm mb-6">{t("footer.tagline")}</p>
             <div className="flex gap-3">
