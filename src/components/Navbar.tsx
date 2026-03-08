@@ -25,6 +25,7 @@ const Navbar = () => {
     { key: "nav.services", href: `${prefix}#services` },
     { key: "nav.portfolio", href: `${prefix}#portfolio` },
     { key: "nav.about", href: `${prefix}#about` },
+    { key: "nav.blog", href: "/blog", label: lang === "bm" ? "Blog" : lang === "zh" ? "博客" : "Blog" },
     { key: "nav.contact", href: `${prefix}#contact` },
   ];
 
