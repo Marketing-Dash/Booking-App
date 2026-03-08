@@ -25,6 +25,7 @@ const Navbar = () => {
     { key: "nav.services", href: `${prefix}#services` },
     { key: "nav.portfolio", href: `${prefix}#portfolio` },
     { key: "nav.about", href: `${prefix}#about` },
+    { key: "nav.blog", href: "/blog", label: lang === "bm" ? "Blog" : lang === "zh" ? "博客" : "Blog" },
     { key: "nav.contact", href: `${prefix}#contact` },
   ];
 
@@ -59,7 +60,7 @@ const Navbar = () => {
                 href={link.href}
                 className="text-foreground/70 hover:text-primary font-medium text-[15px] transition-colors duration-200"
               >
-                {t(link.key)}
+                {(link as any).label || t(link.key)}
               </a>
             ))}
           </div>
@@ -122,7 +123,7 @@ const Navbar = () => {
                   onClick={() => setMobileOpen(false)}
                   className="text-foreground/70 hover:text-primary font-medium py-2.5 transition-colors border-b border-border/50"
                 >
-                  {t(link.key)}
+                  {(link as any).label || t(link.key)}
                 </a>
               ))}
               <div className="flex items-center gap-2 pt-3">

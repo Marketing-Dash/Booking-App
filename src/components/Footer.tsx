@@ -33,6 +33,9 @@ const Footer = () => {
                   <a href={`#${key.split(".")[1]}`} className="text-background/50 hover:text-primary transition-colors text-sm">{t(key)}</a>
                 </li>
               ))}
+              <li>
+                <a href="/blog" className="text-background/50 hover:text-primary transition-colors text-sm">Blog</a>
+              </li>
             </ul>
           </div>
 

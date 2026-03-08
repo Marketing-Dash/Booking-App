@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { Zap, LayoutDashboard, Briefcase, FolderOpen, MessageSquareQuote, FileText, LogOut, Menu, X } from "lucide-react";
+import { Zap, LayoutDashboard, Briefcase, FolderOpen, MessageSquareQuote, FileText, PenSquare, LogOut, Menu, X } from "lucide-react";
 import AdminServices from "@/components/admin/AdminServices";
 import AdminPortfolio from "@/components/admin/AdminPortfolio";
 import AdminTestimonials from "@/components/admin/AdminTestimonials";
 import AdminSiteContent from "@/components/admin/AdminSiteContent";
+import AdminBlog from "@/components/admin/AdminBlog";
 
-type Tab = "services" | "portfolio" | "testimonials" | "content";
+type Tab = "services" | "portfolio" | "testimonials" | "content" | "blog";
 
 const AdminDashboard = () => {
   const { user, signOut } = useAuth();
@@ -18,6 +19,7 @@ const AdminDashboard = () => {
     { key: "services", label: "Services & Pricing", icon: Briefcase },
     { key: "portfolio", label: "Portfolio", icon: FolderOpen },
     { key: "testimonials", label: "Testimonials", icon: MessageSquareQuote },
+    { key: "blog", label: "Blog Posts", icon: PenSquare },
     { key: "content", label: "Site Content", icon: FileText },
   ];
 
@@ -88,6 +90,7 @@ const AdminDashboard = () => {
           {activeTab === "services" && <AdminServices />}
           {activeTab === "portfolio" && <AdminPortfolio />}
           {activeTab === "testimonials" && <AdminTestimonials />}
+          {activeTab === "blog" && <AdminBlog />}
           {activeTab === "content" && <AdminSiteContent />}
         </div>
       </main>

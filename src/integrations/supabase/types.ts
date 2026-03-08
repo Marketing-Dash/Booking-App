@@ -14,6 +14,87 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          author_name: string
+          category: string
+          content_bm: string
+          content_en: string
+          content_zh: string
+          cover_image_url: string | null
+          created_at: string
+          excerpt_bm: string
+          excerpt_en: string
+          excerpt_zh: string
+          id: string
+          is_published: boolean
+          meta_description_bm: string
+          meta_description_en: string
+          meta_description_zh: string
+          meta_keywords: string
+          published_at: string | null
+          slug: string
+          sort_order: number
+          tags: string[]
+          title_bm: string
+          title_en: string
+          title_zh: string
+          updated_at: string
+        }
+        Insert: {
+          author_name?: string
+          category?: string
+          content_bm?: string
+          content_en?: string
+          content_zh?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt_bm?: string
+          excerpt_en?: string
+          excerpt_zh?: string
+          id?: string
+          is_published?: boolean
+          meta_description_bm?: string
+          meta_description_en?: string
+          meta_description_zh?: string
+          meta_keywords?: string
+          published_at?: string | null
+          slug: string
+          sort_order?: number
+          tags?: string[]
+          title_bm?: string
+          title_en: string
+          title_zh?: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          category?: string
+          content_bm?: string
+          content_en?: string
+          content_zh?: string
+          cover_image_url?: string | null
+          created_at?: string
+          excerpt_bm?: string
+          excerpt_en?: string
+          excerpt_zh?: string
+          id?: string
+          is_published?: boolean
+          meta_description_bm?: string
+          meta_description_en?: string
+          meta_description_zh?: string
+          meta_keywords?: string
+          published_at?: string | null
+          slug?: string
+          sort_order?: number
+          tags?: string[]
+          title_bm?: string
+          title_en?: string
+          title_zh?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       portfolio_items: {
         Row: {
           category: string
