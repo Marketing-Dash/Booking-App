@@ -9,7 +9,7 @@ interface ContentMap {
 export const useSiteContent = () => {
   const [content, setContent] = useState<ContentMap>({});
   const [loading, setLoading] = useState(true);
-  const { language } = useLanguage();
+  const { lang: language } = useLanguage();
 
   useEffect(() => {
     const fetch = async () => {
