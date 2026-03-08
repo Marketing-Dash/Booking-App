@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const checkAdmin = async (userId: string) => {
+  const checkAdmin = async (userId: string): Promise<boolean> => {
     try {
       const { data, error } = await supabase
         .from("user_roles")
@@ -34,44 +34,67 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         .eq("user_id", userId)
         .eq("role", "admin")
         .maybeSingle();
+
       if (error) {
         console.error("Error checking admin role:", error);
-        setIsAdmin(false);
-        return;
+        return false;
       }
-      setIsAdmin(!!data);
+
+      return !!data;
     } catch (err) {
       console.error("Failed to check admin role:", err);
-      setIsAdmin(false);
+      return false;
     }
   };
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await checkAdmin(session.user.id);
-        } else {
-          setIsAdmin(false);
-        }
-        setLoading(false);
-      }
-    );
+    let mounted = true;
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await checkAdmin(session.user.id);
+    const applySession = async (nextSession: Session | null) => {
+      if (!mounted) return;
+
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
+      setLoading(false);
+
+      if (!nextSession?.user) {
+        setIsAdmin(false);
+        return;
       }
-      setLoading(false);
-    }).catch(() => {
-      setLoading(false);
+
+      const admin = await Promise.race<boolean>([
+        checkAdmin(nextSession.user.id),
+        new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 3000)),
+      ]);
+
+      if (mounted) {
+        setIsAdmin(admin);
+      }
+    };
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      void applySession(nextSession);
     });
 
-    return () => subscription.unsubscribe();
+    supabase.auth
+      .getSession()
+      .then(({ data: { session: nextSession } }) => {
+        void applySession(nextSession);
+      })
+      .catch((err) => {
+        console.error("Failed to get session:", err);
+        if (mounted) {
+          setLoading(false);
+          setIsAdmin(false);
+        }
+      });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => {
