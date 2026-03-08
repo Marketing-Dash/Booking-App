@@ -4,6 +4,7 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 
 const Footer = () => {
   const { t } = useLanguage();
+  const { get } = useSiteContent();
 
   return (
     <footer className="bg-foreground text-background border-t-2 border-primary">
