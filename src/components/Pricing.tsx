@@ -1,36 +1,72 @@
 import { motion } from "framer-motion";
-import { useLanguage } from "@/i18n/LanguageContext";
-import { Check } from "lucide-react";
+import { Check, Trophy, Flame } from "lucide-react";
 
 const packages = [
   {
-    nameKey: "pricing.starter",
-    descKey: "pricing.starter.desc",
-    price: "RM 1,500",
-    features: ["pricing.feature.website", "pricing.feature.social"],
+    name: "Essential",
+    price: "RM 500",
+    period: "/month",
+    badge: null,
+    highlight: "border",
+    features: [
+      "8 Posts",
+      "4 Reels",
+      "FB, IG, TikTok, GMB",
+      "Portal Access",
+      "Weekly, 2 Weeks, 1 Month Reports",
+      "1 Extra Add-on Task (Design, Editing, Others)",
+      "Monthly 2 Meetings",
+    ],
+    cta: "Get Started",
     popular: false,
+    exclusive: false,
   },
   {
-    nameKey: "pricing.growth",
-    descKey: "pricing.growth.desc",
-    price: "RM 3,500",
-    features: ["pricing.feature.website", "pricing.feature.social", "pricing.feature.seo", "pricing.feature.analytics"],
+    name: "Growth",
+    price: "RM 800",
+    period: "/month",
+    badge: "Most Popular",
+    highlight: "popular",
+    features: [
+      "10 Posts",
+      "5 Reels",
+      "FB, IG, TikTok, GMB, YouTube",
+      "Portal Access",
+      "Weekly, 2 Weeks, 1 Month Reports",
+      "2 Extra Add-on Tasks (Design, Editing, Others)",
+      "Staff Attendance Web App with Real-time & Location Tracking + Reporting",
+      "Monthly 2 Meetings",
+    ],
+    cta: "Upgrade to this plan",
     popular: true,
+    exclusive: false,
   },
   {
-    nameKey: "pricing.enterprise",
-    descKey: "pricing.enterprise.desc",
-    price: "RM 8,000",
-    features: ["pricing.feature.website", "pricing.feature.social", "pricing.feature.seo", "pricing.feature.ads", "pricing.feature.app", "pricing.feature.branding", "pricing.feature.support", "pricing.feature.analytics"],
+    name: "Premium",
+    price: "RM 1,499",
+    period: "/month",
+    badge: "Limited Clients Only",
+    highlight: "exclusive",
+    features: [
+      "10 Posts",
+      "5 Reels",
+      "FB, IG, TikTok, GMB, YouTube",
+      "Portal Access",
+      "Weekly, 2 Weeks, 1 Month Reports",
+      "3 Extra Add-on Tasks (Design, Editing, Others)",
+      "Staff Attendance Web App with Real-time & Location Tracking + Reporting",
+      "Custom App or Web Development & Maintenance",
+      "Monthly 2 Meetings",
+    ],
+    cta: "Upgrade to this plan",
     popular: false,
+    exclusive: true,
   },
 ];
 
 const Pricing = () => {
-  const { t } = useLanguage();
-
   return (
-    <section className="section-padding section-alt-bg">
+    <section id="pricing" className="section-padding bg-background">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -38,56 +74,114 @@ const Pricing = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black gradient-text-orange">
-            {t("pricing.headline")}
+          <span className="text-primary font-bold tracking-widest text-xs uppercase mb-3 block">
+            PRICING
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-foreground">
+            Choose Your Growth Plan
           </h2>
           <p className="text-muted-foreground mt-4 text-base max-w-lg mx-auto">
-            Pick a plan that fits your business needs — from simple automation to full-scale marketing and growth.
+            Flexible packages designed for Malaysian businesses — from startups to enterprises.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
           {packages.map((pkg, i) => (
             <motion.div
-              key={pkg.nameKey}
+              key={pkg.name}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`rounded-2xl p-8 relative transition-all duration-300 hover:-translate-y-1 ${
+              transition={{ delay: i * 0.12 }}
+              className={`relative rounded-2xl p-8 flex flex-col transition-all duration-300 ${
                 pkg.popular
-                  ? "card-clean-orange shadow-xl shadow-primary/10"
-                  : "card-clean"
-              }`}
+                  ? "bg-[hsl(var(--brand-dark))] text-white shadow-2xl shadow-primary/20 scale-[1.03] z-10 border-2 border-primary"
+                  : pkg.exclusive
+                  ? "bg-card border-2 border-[hsl(var(--brand-gold))] shadow-xl shadow-[hsl(var(--brand-gold))]/10"
+                  : "bg-card border-2 border-primary/40 shadow-lg"
+              } hover:-translate-y-1`}
             >
-              {pkg.popular && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold py-1.5 px-5 rounded-full">
-                  {t("pricing.popular")}
+              {/* Badge */}
+              {pkg.badge && (
+                <span
+                  className={`absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 text-xs font-bold py-1.5 px-5 rounded-full whitespace-nowrap ${
+                    pkg.popular
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-[hsl(var(--brand-gold))] text-[hsl(var(--brand-dark))]"
+                  }`}
+                >
+                  {pkg.popular && <Trophy className="w-3.5 h-3.5" />}
+                  {pkg.exclusive && <Flame className="w-3.5 h-3.5" />}
+                  {pkg.badge}
                 </span>
               )}
-              <h3 className="text-xl font-heading font-bold text-foreground mb-1">{t(pkg.nameKey)}</h3>
-              <p className="text-muted-foreground text-sm mb-6">{t(pkg.descKey)}</p>
+
+              {/* Header */}
               <div className="mb-6">
-                <span className="text-xs text-muted-foreground">{t("pricing.from")}</span>
-                <p className="text-3xl font-heading font-black text-primary">{pkg.price}</p>
+                <h3
+                  className={`text-xl font-heading font-bold mb-1 ${
+                    pkg.popular ? "text-white" : "text-foreground"
+                  }`}
+                >
+                  {pkg.name}
+                </h3>
+                <div className="mt-3">
+                  <span
+                    className={`text-4xl font-heading font-black ${
+                      pkg.popular
+                        ? "text-primary"
+                        : pkg.exclusive
+                        ? "text-[hsl(var(--brand-gold))]"
+                        : "text-primary"
+                    }`}
+                  >
+                    {pkg.price}
+                  </span>
+                  <span
+                    className={`text-sm ml-1 ${
+                      pkg.popular ? "text-white/60" : "text-muted-foreground"
+                    }`}
+                  >
+                    {pkg.period}
+                  </span>
+                </div>
               </div>
-              <ul className="space-y-3 mb-8">
+
+              {/* Features */}
+              <ul className="space-y-3 mb-8 flex-1">
                 {pkg.features.map((f) => (
-                  <li key={f} className="flex items-center gap-3 text-sm text-foreground/80">
-                    <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span>{t(f)}</span>
+                  <li
+                    key={f}
+                    className={`flex items-start gap-3 text-sm ${
+                      pkg.popular ? "text-white/85" : "text-foreground/80"
+                    }`}
+                  >
+                    <Check
+                      className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
+                        pkg.popular
+                          ? "text-primary"
+                          : pkg.exclusive
+                          ? "text-[hsl(var(--brand-gold))]"
+                          : "text-primary"
+                      }`}
+                    />
+                    <span>{f}</span>
                   </li>
                 ))}
               </ul>
+
+              {/* CTA */}
               <a
                 href="#contact"
-                className={`block text-center rounded-full font-bold transition-all duration-300 ${
+                className={`block text-center rounded-full font-bold py-3.5 px-8 transition-all duration-300 ${
                   pkg.popular
-                    ? "btn-primary w-full"
-                    : "btn-outline w-full"
+                    ? "bg-primary text-primary-foreground hover:shadow-[0_8px_24px_-6px_hsl(25,100%,50%,0.5)] hover:scale-[1.03]"
+                    : pkg.exclusive
+                    ? "bg-[hsl(var(--brand-gold))] text-[hsl(var(--brand-dark))] font-bold hover:shadow-[0_8px_24px_-6px_hsl(43,100%,55%,0.4)] hover:scale-[1.03]"
+                    : "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                 }`}
               >
-                {t("pricing.cta")}
+                {pkg.cta}
               </a>
             </motion.div>
           ))}

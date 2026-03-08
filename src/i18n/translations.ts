@@ -34,6 +34,8 @@ export const translations: Record<string, Record<Language, string>> = {
   "services.5.desc": { en: "Logo design, brand identity, creative design & visual storytelling", bm: "Reka bentuk logo, identiti jenama, reka bentuk kreatif & penceritaan visual", zh: "标志设计、品牌标识、创意设计和视觉叙事" },
   "services.6.title": { en: "Content Creation", bm: "Penciptaan Kandungan", zh: "内容创作" },
   "services.6.desc": { en: "Copywriting, photography, videography & content strategy", bm: "Penulisan salinan, fotografi, videografi & strategi kandungan", zh: "文案撰写、摄影、摄像和内容策略" },
+  "services.7.title": { en: "Business Solution", bm: "Penyelesaian Perniagaan", zh: "商业解决方案" },
+  "services.7.desc": { en: "All-in-one business packages with social media, apps, tracking & reporting", bm: "Pakej perniagaan semua-dalam-satu dengan media sosial, aplikasi, penjejakan & laporan", zh: "集社交媒体、应用、跟踪和报告于一体的一站式商业套餐" },
 
   // Stats
   "stats.projects": { en: "Projects Completed", bm: "Projek Selesai", zh: "已完成项目" },
