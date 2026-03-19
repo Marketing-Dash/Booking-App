@@ -18,7 +18,7 @@ jobs:
         run: |
           git config user.email "sync@github.com"
           git config user.name "GitHub Sync"
-          git remote add upstream https://github.com/parvezmohammed2024-bit/dashoutdoors.git
+          git remote add upstream https://${{ secrets.UPSTREAM_TOKEN }}@github.com/parvezmohammed2024-bit/dashoutdoors.git
           git fetch upstream
           git merge upstream/main --allow-unrelated-histories -m "Auto sync from upstream" || true
           git push origin main
